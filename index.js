@@ -53,7 +53,7 @@ const __dirname = path.dirname(__filename);
   });
 
   // Сохраняем информацию о каталогах
-  fsp.writeFile(path.join(__dirname, 'downloads', 'info.json'), JSON.stringify(catalogSummary))
+  fsp.writeFile(path.join(__dirname, 'info.json'), JSON.stringify(catalogSummary))
   .catch((e) => `Unfortunately the file was not saved, here is an error ${e}`);
 
 
@@ -63,17 +63,12 @@ const __dirname = path.dirname(__filename);
 
   // Загружаем и сохраняем каталоги
   linksToLoad.forEach(async (link) => {
-    console.log(link)
-    const loadPath = path.join(__dirname, 'downloads');
-    const fileName = path.join(loadPath, makeFileName(new URL(link)));
-    console.log(loadPath)
+    const fileName = path.join(__dirname, makeFileName(new URL(link)));
     
       axios.get(link, { responseType: 'arraybuffer'})
       .then((response) => response.data)
       .then((buff) => fsp.writeFile(fileName, buff))
-      .catch((e) => console.error(`Unfortunately the ${link} was not loaded, here is an error ${e}`))
-
-    
+      .catch((e) => console.error(`Unfortunately the ${link} was not loaded, here is an error ${e}`)) 
     
   });
 
